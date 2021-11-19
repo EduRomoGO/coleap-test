@@ -21,6 +21,7 @@ const Cars = () => {
   const close = () => setShowDialog(false);
   const [selectedCar, setSelectedCar] = React.useState();
   const [priceFilterActive, setPriceFilterActive] = React.useState(false);
+  const [rangeFilterActive, setRangeFilterActive] = React.useState(false);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -50,21 +51,49 @@ const Cars = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    if (carsData) {
-      console.log(priceFilterActive);
+  const sortByPrice = (carsData) => {
+    const comparablePrice = (n) => parseInt(n.split(" ")[0], 10);
 
-      const comparablePrice = (n) => parseInt(n.split(" ")[0], 10);
+    carsData.map((n) => console.log(n.price));
 
-      carsData.map((n) => console.log(n.price));
+    let newCarsData = [...carsData];
+    newCarsData.sort((a, b) => {
+      return comparablePrice(a.price) - comparablePrice(b.price);
+    });
+    console.log("-----------------");
+    carsData.map((n) => console.log(n.price));
 
-      carsData.sort((a, b) => {
-        return comparablePrice(a.price) - comparablePrice(b.price);
-      });
-      console.log("-----------------");
-      carsData.map((n) => console.log(n.price));
+    return newCarsData;
+  };
+
+  const sortByRange = (carsData) => {
+    const comparablePrice = (n) => parseInt(n.split(" ")[0], 10);
+
+    carsData.map((n) => console.log(n.price));
+
+    let newCarsData = [...carsData];
+    newCarsData.sort((a, b) => {
+      return comparablePrice(a.price) - comparablePrice(b.price);
+    });
+    console.log("-----------------");
+    carsData.map((n) => console.log(n.price));
+
+    return newCarsData;
+  };
+
+  const getCarsData = () => {
+    let sortedCars = [...carsData];
+
+    if (priceFilterActive) {
+      sortedCars = sortByPrice(sortedCars);
     }
-  }, [carsData, priceFilterActive]);
+
+    if (rangeFilterActive) {
+      sortedCars = sortByRange(sortedCars);
+    }
+
+    return sortedCars;
+  };
 
   if (status === "idle" || status === "pending") {
     return <div>loading...</div>;
@@ -87,6 +116,9 @@ const Cars = () => {
 
   const handlePriceCheckboxChange = () => {
     setPriceFilterActive((state) => !state);
+  };
+  const handleRangeCheckboxChange = () => {
+    setRangeFilterActive((state) => !state);
   };
 
   if (status === "resolved") {
@@ -124,13 +156,17 @@ const Cars = () => {
               onChange={handlePriceCheckboxChange}
             />
             <label htmlFor="price">price</label>
-            <input type="checkbox" id="range" />
+            <input
+              type="checkbox"
+              id="range"
+              onChange={handleRangeCheckboxChange}
+            />
             <label htmlFor="range">range</label>
           </div>
         </section>
 
         <div>
-          {carsData?.map((car) => {
+          {getCarsData()?.map((car) => {
             return (
               <article key={car.id} onClick={() => handleCarClick(car)}>
                 <img src={car.photo} alt="car" />
