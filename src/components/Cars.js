@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import { jsx, css } from "@emotion/react";
-// import styled from "@emotion/styled";
+import { css } from "@emotion/react";
+import { Card, CardBody } from "reactstrap";
+import styled from "@emotion/styled";
 
 import React, { useReducer } from "react";
 import { Dialog, DialogContent } from "@reach/dialog";
@@ -125,9 +126,18 @@ const Cars = () => {
     setRangeFilterActive((state) => !state);
   };
 
+  const Value = styled.p`
+    font-weight: bold;
+    margin-left: 8px;
+  `;
+
   if (status === "resolved") {
     return (
-      <div>
+      <div
+        css={css`
+          padding: 20px;
+        `}
+      >
         <Dialog
           aria-label="car additional details"
           isOpen={showDialog}
@@ -152,7 +162,13 @@ const Cars = () => {
         </Dialog>
 
         <div>
-          <h1>Awesome Cars</h1>
+          <h1
+            css={css`
+              text-align: center;
+            `}
+          >
+            Awesome Cars
+          </h1>
           <section>
             <div>
               <p>Sort by: </p>
@@ -174,59 +190,55 @@ const Cars = () => {
           <section>
             {getCarsData()?.map((car) => {
               return (
-                <article
-                  css={css`
-                    display: flex;
-                    justify-content: space-around;
-                  `}
-                  key={car.id}
-                  onClick={() => handleCarClick(car)}
-                >
-                  <img
+                <div>
+                  {" "}
+                  <Card
                     css={css`
-                      width: 200px;
-                    `}
-                    src={car.photo}
-                    alt="car"
-                  />
-                  <div
-                    css={css`
-                      display: flex;
-                      flex-direction: column;
+                      border: 1px solid hsl(0deg 4% 77%);
+                      border-radius: 3px;
+                      margin-bottom: 20px;
                     `}
                   >
-                    <div>
-                      <p
+                    <CardBody>
+                      <article
                         css={css`
-                          display: inline-block;
+                          display: flex;
+                          justify-content: space-around;
                         `}
+                        key={car.id}
+                        onClick={() => handleCarClick(car)}
                       >
-                        Make
-                      </p>
-                      <span>{car.make}</span>
-                    </div>
-                    <div>
-                      <p
-                        css={css`
-                          display: inline-block;
-                        `}
-                      >
-                        Make
-                      </p>
-                      <span>{car.model}</span>
-                    </div>
-                    <div>
-                      <p
-                        css={css`
-                          display: inline-block;
-                        `}
-                      >
-                        Make
-                      </p>
-                      <span>{car.price}</span>
-                    </div>
-                  </div>
-                </article>
+                        <img
+                          css={css`
+                            width: 200px;
+                            object-fit: contain;
+                          `}
+                          src={car.photo}
+                          alt="car"
+                        />
+                        <div
+                          css={css`
+                            display: flex;
+                            flex-direction: column;
+                          `}
+                        >
+                          <div>
+                            <p>Make</p>
+                            <Value>{car.make}</Value>
+                          </div>
+                          <div>
+                            <p>Model</p>
+                            <Value>{car.model}</Value>
+                          </div>
+                          <div>
+                            <p>Price</p>
+                            <Value>{car.price}</Value>
+                          </div>
+                        </div>
+                      </article>
+                    </CardBody>
+                  </Card>
+                </div>
               );
             })}
           </section>
