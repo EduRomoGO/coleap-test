@@ -1,4 +1,8 @@
-import React, { useEffect, useReducer } from "react";
+/** @jsxImportSource @emotion/react */
+import { jsx, css } from "@emotion/react";
+// import styled from "@emotion/styled";
+
+import React, { useReducer } from "react";
 import { Dialog, DialogContent } from "@reach/dialog";
 import VisuallyHidden from "@reach/visually-hidden";
 import "@reach/dialog/styles.css";
@@ -147,35 +151,85 @@ const Cars = () => {
           </DialogContent>
         </Dialog>
 
-        <section>
-          <div>
-            <p>Sort by: </p>
-            <input
-              type="checkbox"
-              id="price"
-              onChange={handlePriceCheckboxChange}
-            />
-            <label htmlFor="price">price</label>
-            <input
-              type="checkbox"
-              id="range"
-              onChange={handleRangeCheckboxChange}
-            />
-            <label htmlFor="range">range</label>
-          </div>
-        </section>
-
         <div>
-          {getCarsData()?.map((car) => {
-            return (
-              <article key={car.id} onClick={() => handleCarClick(car)}>
-                <img src={car.photo} alt="car" />
-                <div>{car.make}</div>
-                <div>{car.model}</div>
-                <div>{car.price}</div>
-              </article>
-            );
-          })}
+          <h1>Awesome Cars</h1>
+          <section>
+            <div>
+              <p>Sort by: </p>
+              <input
+                type="checkbox"
+                id="price"
+                onChange={handlePriceCheckboxChange}
+              />
+              <label htmlFor="price">price</label>
+              <input
+                type="checkbox"
+                id="range"
+                onChange={handleRangeCheckboxChange}
+              />
+              <label htmlFor="range">range</label>
+            </div>
+          </section>
+
+          <section>
+            {getCarsData()?.map((car) => {
+              return (
+                <article
+                  css={css`
+                    display: flex;
+                    justify-content: space-around;
+                  `}
+                  key={car.id}
+                  onClick={() => handleCarClick(car)}
+                >
+                  <img
+                    css={css`
+                      width: 200px;
+                    `}
+                    src={car.photo}
+                    alt="car"
+                  />
+                  <div
+                    css={css`
+                      display: flex;
+                      flex-direction: column;
+                    `}
+                  >
+                    <div>
+                      <p
+                        css={css`
+                          display: inline-block;
+                        `}
+                      >
+                        Make
+                      </p>
+                      <span>{car.make}</span>
+                    </div>
+                    <div>
+                      <p
+                        css={css`
+                          display: inline-block;
+                        `}
+                      >
+                        Make
+                      </p>
+                      <span>{car.model}</span>
+                    </div>
+                    <div>
+                      <p
+                        css={css`
+                          display: inline-block;
+                        `}
+                      >
+                        Make
+                      </p>
+                      <span>{car.price}</span>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </section>
         </div>
       </div>
     );
