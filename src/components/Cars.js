@@ -131,11 +131,17 @@ const Cars = () => {
     margin-left: 8px;
   `;
 
+  //   const Color = styled.p`
+  //     margin-left: 8px;
+  //   `;
+
   if (status === "resolved") {
     return (
       <div
         css={css`
           padding: 20px;
+          max-width: 600px;
+          margin: 0 auto;
         `}
       >
         <Dialog
@@ -147,15 +153,23 @@ const Cars = () => {
             <VisuallyHidden>Close</VisuallyHidden>
             <span aria-hidden>×</span>
           </button>
-          <DialogContent>
+          <DialogContent
+            css={css`
+              max-width: fit-content;
+            `}
+          >
             {selectedCar && (
               <article>
                 <div>
+                  <p>Available colors</p>
                   {selectedCar.colors.map((n) => (
-                    <div key={n}>{n}</div>
+                    <Value key={n}>{n}</Value>
                   ))}
                 </div>
-                <div>{`${selectedCar.range.distance} ${selectedCar.range.unit}`}</div>
+                <div>
+                  <p>Range</p>
+                  <Value>{`${selectedCar.range.distance} ${selectedCar.range.unit}`}</Value>
+                </div>
               </article>
             )}
           </DialogContent>
