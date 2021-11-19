@@ -30,11 +30,9 @@ const Cars = () => {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      console.log("hey");
       setState({ data: null, status: "pending", error: null });
       try {
         const response = await window.fetch(apiUrl);
-        console.log(response);
         if (response.ok) {
           const carsData = await response.json();
 
@@ -59,27 +57,19 @@ const Cars = () => {
   const sortByPrice = (carsData) => {
     const comparablePrice = (n) => parseInt(n.split(" ")[0], 10);
 
-    carsData.map((n) => console.log(n.price));
-
     let newCarsData = [...carsData];
     newCarsData.sort((a, b) => {
       return comparablePrice(a.price) - comparablePrice(b.price);
     });
-    console.log("-----------------");
-    carsData.map((n) => console.log(n.price));
 
     return newCarsData;
   };
 
   const sortByRange = (carsData) => {
-    carsData.map((n) => console.log(n.price));
-
     let newCarsData = [...carsData];
     newCarsData.sort((a, b) => {
       return parseInt(a.range.distance, 10) - parseInt(b.range.distance, 10);
     });
-    console.log("-----------------");
-    carsData.map((n) => console.log(n.price));
 
     return newCarsData;
   };
