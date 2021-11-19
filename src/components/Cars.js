@@ -72,13 +72,11 @@ const Cars = () => {
   };
 
   const sortByRange = (carsData) => {
-    const comparablePrice = (n) => parseInt(n.split(" ")[0], 10);
-
     carsData.map((n) => console.log(n.price));
 
     let newCarsData = [...carsData];
     newCarsData.sort((a, b) => {
-      return comparablePrice(a.price) - comparablePrice(b.price);
+      return parseInt(a.range.distance, 10) - parseInt(b.range.distance, 10);
     });
     console.log("-----------------");
     carsData.map((n) => console.log(n.price));
