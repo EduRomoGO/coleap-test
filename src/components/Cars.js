@@ -1,5 +1,5 @@
 // import "./styles.css";
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import { Dialog, DialogOverlay, DialogContent } from "@reach/dialog";
 import VisuallyHidden from "@reach/visually-hidden";
 import "@reach/dialog/styles.css";
@@ -26,6 +26,8 @@ const Cars = () => {
   const [showDialog, setShowDialog] = React.useState(false);
   const open = () => setShowDialog(true);
   const close = () => setShowDialog(false);
+  const [selectedCar, setSelectedCar] = React.useState();
+  const [priceFilterActive, setPriceFilterActive] = React.useState(false);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -55,6 +57,13 @@ const Cars = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    console.log(priceFilterActive);
+    // if (priceFilterActive) {
+    //     cl
+    // }
+  }, [priceFilterActive]);
+
   // const [showDialog, setShowDialog] = React.useState(false);
   // const open = () => setShowDialog(true);
   // const close = () => setShowDialog(false);
@@ -74,21 +83,62 @@ const Cars = () => {
     return <div>{error}</div>;
   }
 
+  const handleCarClick = (car) => {
+    setSelectedCar(car);
+    open();
+  };
+
+  const handleModalClose = () => {
+    setSelectedCar();
+
+    close();
+  };
+
+  const handlePriceCheckboxChange = () => {
+    setPriceFilterActive((state) => !state);
+  };
+
   if (status === "resolved") {
     return (
       <div>
-        <Dialog isOpen={showDialog} onDismiss={close}>
-          <button className="close-button" onClick={close}>
+        <Dialog
+          aria-label="car additional details"
+          isOpen={showDialog}
+          onDismiss={handleModalClose}
+        >
+          <button className="close-button" onClick={handleModalClose}>
             <VisuallyHidden>Close</VisuallyHidden>
             <span aria-hidden>×</span>
           </button>
-          <p>Hello there. I am a dialog</p>
+          <DialogContent>
+            {selectedCar && (
+              <article>
+                <div>
+                  {selectedCar.colors.map((n) => (
+                    <div key={n}>{n}</div>
+                  ))}
+                </div>
+                <div>{`${selectedCar.range.distance} ${selectedCar.range.unit}`}</div>
+              </article>
+            )}
+          </DialogContent>
         </Dialog>
+
+        <section>
+          <input
+            type="checkbox"
+            id="price"
+            onChange={handlePriceCheckboxChange}
+          />
+          <label htmlFor="price">price</label>
+          <input type="checkbox" id="range" />
+          <label htmlFor="range">range</label>
+        </section>
 
         <div>
           {carsData?.map((car) => {
             return (
-              <article key={car.id} onClick={open}>
+              <article key={car.id} onClick={() => handleCarClick(car)}>
                 <img src={car.photo} alt="car" />
                 <div>{car.make}</div>
                 <div>{car.model}</div>
