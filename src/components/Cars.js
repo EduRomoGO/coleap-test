@@ -58,22 +58,20 @@ const Cars = () => {
   }, []);
 
   useEffect(() => {
-    console.log(priceFilterActive);
-    // if (priceFilterActive) {
-    //     cl
-    // }
-  }, [priceFilterActive]);
+    if (carsData) {
+      console.log(priceFilterActive);
 
-  // const [showDialog, setShowDialog] = React.useState(false);
-  // const open = () => setShowDialog(true);
-  // const close = () => setShowDialog(false);
+      const comparablePrice = (n) => parseInt(n.split(" ")[0], 10);
 
-  // return (
-  //   <div>
-  //     <button onClick={open}>Open Dialog</button>
+      carsData.map((n) => console.log(n.price));
 
-  //   </div>
-  // );
+      carsData.sort((a, b) => {
+        return comparablePrice(a.price) - comparablePrice(b.price);
+      });
+      console.log("-----------------");
+      carsData.map((n) => console.log(n.price));
+    }
+  }, [carsData, priceFilterActive]);
 
   if (status === "idle" || status === "pending") {
     return <div>loading...</div>;
@@ -125,14 +123,17 @@ const Cars = () => {
         </Dialog>
 
         <section>
-          <input
-            type="checkbox"
-            id="price"
-            onChange={handlePriceCheckboxChange}
-          />
-          <label htmlFor="price">price</label>
-          <input type="checkbox" id="range" />
-          <label htmlFor="range">range</label>
+          <div>
+            <p>Sort by: </p>
+            <input
+              type="checkbox"
+              id="price"
+              onChange={handlePriceCheckboxChange}
+            />
+            <label htmlFor="price">price</label>
+            <input type="checkbox" id="range" />
+            <label htmlFor="range">range</label>
+          </div>
         </section>
 
         <div>
