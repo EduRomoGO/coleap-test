@@ -1,6 +1,5 @@
-// import "./styles.css";
 import React, { useEffect, useReducer } from "react";
-import { Dialog, DialogOverlay, DialogContent } from "@reach/dialog";
+import { Dialog, DialogContent } from "@reach/dialog";
 import VisuallyHidden from "@reach/visually-hidden";
 import "@reach/dialog/styles.css";
 
@@ -11,12 +10,6 @@ const initialState = {
   data: null,
   error: null,
 };
-
-// const reducer = (state, action) => {
-//   switch(action.type) {
-
-//   }
-// }
 
 const Cars = () => {
   const [{ status, data: carsData, error }, setState] = useReducer(
